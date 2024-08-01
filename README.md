@@ -1,4 +1,4 @@
-# DAA-Project'
+# DAA-Project
 
 https://codeforces.com/contest/1982/problem/E
 - Divide and conquer
@@ -21,3 +21,6 @@ https://codeforces.com/problemset/problem/873/F
 
 https://codeforces.com/problemset/gymProblem/102219/F
 - Dp (mascara de bits)
+
+https://codeforces.com/contest/1996/problem/F
+- Binary search  
