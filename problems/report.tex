@@ -1,0 +1,217 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage[text={18cm,21cm},centering]{geometry}
+\usepackage{hyperref} \hypersetup{ colorlinks=true, linkcolor=blue, filecolor=magenta,
+urlcolor=blue, }
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    {\bfseries\LARGE Universidad de La Habana \par}
+    \vspace{1cm}
+    {\scshape\Large Facultad de Matemática y Computación \par}
+    \vspace{3cm}
+    {\scshape\Huge Proyecto de Diseño de Análisis y ALgoritmos\par}
+    \vfill
+
+    {\Large Raudel Alejandro Gómez Molina C-411 \par}
+    \vfill
+    {\href{https://github.com/raudel25/DAA-Project}{Proyecto en github} \par}
+\end{titlepage}
+
+\section{Reducción de Emparejamiento}
+
+\subsection{Ejercicio}
+
+\href{https://codeforces.com/contest/1721/problem/F}{Link del problema en la plataforma \textbf{Codeforces}}
+
+\begin{itemize}
+    \item límite de tiempo por test: 8 segundos
+    \item límite de memoria por test: 512 megabytes
+\end{itemize}
+
+Te dan un grafo bipartito con $n_1$ vértices en la primera parte, $n_2$ vértices en la segunda parte, y $m$ aristas. El emparejamiento máximo en este grafo es el subconjunto máximo posible (en tamaño) de aristas de este grafo tal que ningún vértice está incidente a más de una arista elegida.
+
+Debes procesar dos tipos de consultas en este grafo:
+
+\begin{itemize}
+    \item 1 — elimina el número mínimo posible de vértices de este grafo para que el tamaño del emparejamiento máximo se reduzca exactamente en 1, e imprime los vértices que has eliminado. Luego, encuentra un emparejamiento máximo en este grafo e imprime la suma de los índices de las aristas que pertenecen a este emparejamiento;
+    \item 2 — este tipo de consulta se realizará solo después de una consulta de tipo 1. Como respuesta a esta consulta, debes imprimir las aristas que forman el emparejamiento máximo que has elegido en la consulta anterior.
+          Ten en cuenta que debes resolver el problema en modo en línea. Esto significa que no puedes leer toda la entrada de una vez. Solo puedes leer cada consulta después de escribir la respuesta a la consulta anterior. Usa las funciones \texttt{fflush} en C++ y \texttt{BufferedWriter.flush} en Java después de cada escritura en tu programa.
+\end{itemize}
+
+\textbf{Entrada}\\
+
+La primera línea contiene cuatro enteros $n_1$, $n_2$, $m$ y $q$ $(1 \leq n_1,n_2 \leq 2\cdot 10^5; 1 \leq m \leq \text{min}(n_1 \cdot n_2, 2 \cdot 10^5); 1 \leq q \leq 2\cdot 10^5)$.
+
+Luego siguen $m$ líneas. La $i$-ésima contiene dos enteros $x_i$ y $y_i$ $(1\leq x_i \leq n_1; 1 \leq y_i \leq n_2)$, lo que significa que la $i$-ésima arista conecta el vértice $x_i$ en la primera parte y el vértice $y_i$ en la segunda parte. No hay pares de vértices que estén conectados por más de una arista.
+
+Luego siguen $q$ líneas. La $i$-ésima contiene un entero, 1 o 2, indicando la consulta $i$-ésima. Restricciones adicionales sobre las consultas:
+
+\begin{itemize}
+    \item el número de consultas de tipo 1 no superará el tamaño del emparejamiento máximo en el grafo inicial;
+    \item el número de consultas de tipo 2 no superará 3;
+    \item cada consulta de tipo 2 será precedida por una consulta de tipo 1;
+    \item tu solución solo puede leer la $i$-ésima consulta después de imprimir la respuesta a la consulta $(i-1)$-ésima y vaciar el búfer de salida.
+\end{itemize}
+
+\textbf{Salida}\\
+
+Para una consulta de tipo 1, imprime la respuesta en tres líneas de la siguiente manera:
+
+\begin{itemize}
+    \item la primera línea debe contener el número de vértices que eliminas;
+    \item la segunda línea debe contener los índices de los vértices que eliminas, de la siguiente manera: si eliminas el vértice $x$ de la parte izquierda, imprime $x$; si eliminas el vértice $y$ de la parte derecha, imprime $-y$ (índice negativo);
+    \item la tercera línea debe contener la suma de los índices de las aristas en algún emparejamiento máximo en el grafo resultante. Las aristas están numeradas del 1 al $m$.
+\end{itemize}
+
+Para una consulta de tipo 2, imprime la respuesta en dos líneas de la siguiente manera:
+
+\begin{itemize}
+    \item la primera línea debe contener el tamaño del emparejamiento máximo;
+    \item la segunda línea debe contener los índices de las aristas que pertenecen al emparejamiento máximo. Ten en cuenta que la suma de estos índices debe ser igual al número que imprimiste al final de la consulta de tipo 1 anterior.
+\end{itemize}
+
+Después de imprimir la respuesta a una consulta, no olvides vaciar el búfer de salida.
+
+\subsection{Etiquetas}
+
+\begin{itemize}
+    \item Flujo
+    \item Emparejamientos
+    \item Cobertura de vértices
+\end{itemize}
+
+
+\subsection{Solución}
+
+En el ejercicio se tiene un grafo \textbf{bipartito} en el que se debe responder a dos tipos de consultas, en la primera
+se debe eliminar la mínima cantidad de vértices para que el emparejamiento máximo del grafo se reduzca exactamente en 1 y
+en la segunda se debe informar las aristas que pertenecen al emparejamiento máximo en el grafo que se tiene actualmente.
+Una observación importante es que la interactividad del ejercicio no permite responder las consultas de forma \textbf{offline}
+(recibir todas las consultas hacer algún tipo de preprocesamiento conociendo todas las posibles consultas y luego responder
+cada una de forma individual), por lo que es necesario responder las consultas de forma individual sin conocer las demás e ir
+manteniendo el estado del grafo.\\
+
+\textbf{Definiciones:}
+
+\begin{itemize}
+    \item Se define un emparejamiento máximo de un grafo $G$ como $M(G)$.
+    \item Se define un cubrimiento mínimo de un grafo $G$ como $C(G)$.
+    \item Se define el grafo inducido de $G=V,E$, por $V'$ tal que $V'\subset V$ como $I(G,V')$.
+\end{itemize}
+
+\subsubsection{Algoritmo naive}
+
+El primer acercamiento para resolver este problema es primeramente encontrar un emparejamiento máximo en el grafo de entrada,
+para esto ya que dicho grafo es \textbf{bipartito} se puede usar el algoritmo de \textbf{Khun} (basado en el teorema de \textbf{Khun})
+o \textbf{Flujo Máximo}, estos dos algoritmos funcionan en una complejidad de $O(V E)$.
+
+Luego cuando se necesite analizar una consulta del tipo 1, se puede iterar por todos los posibles conjuntos de vértices $V'$ tal que
+$V' \subset V$ y $|M(I(G,V'))|=|M(G)|-1$ y elegir el conjunto de mayor cardinalidad, este algoritmo es algo lento ya que su complejidad es de $O(2^{|V|}V E)$.
+
+Para las consultas de tipo 2 solo se debe guardar el emparejamiento encontrado en la consulta de tipo 1 anterior e informar
+las aristas que pertenecen a dicho emparejamiento, en una complejidad de $O(M)$ donde $M$ es la cardinalidad del emparejamiento máximo del grafo actual.
+
+\subsubsection{Teorema Kőnig}
+
+El teorema de \textbf{Kőnig} plantea que dado un grafo \textbf{bipartito} $G$ se cumple que $|C(G)|=|M(G)|$, además plantea una equivalencia
+entre estos 2 conjuntos es decir como dado un emparejamiento máximo encontrar un cubrimiento mínimo y viceversa.\\
+
+\textbf{Demostración:}
+
+Sea un grafo \textbf{bipartito} $G=V,E$, con $A$ y $B$ los conjuntos de vértices que representan la bipartición, definamos $Q = M(G)$ y
+$A_q = \{ x \in A \mid \exists y \text{ tal que } \langle x, y \rangle \in Q \}$
+y $B_q = \{ y \in B \mid \exists x \text{ tal que } \langle x, y \rangle \in Q \}$.
+
+En primer lugar si se tiene un cubrimiento de vértices $W$ se cumple que 2 aristas de $Q$ no inciden
+sobre un mismo vértice de $W$ porque de lo contrario $Q$ no sería un emparejamiento, por otro lado cada arista en $Q$ debe ser
+cubierta por un vértice de $W$ ya que de lo contrario $W$ no sería un cubrimiento de vértices. Por tanto si $|Q|=|W|$ entonces se puede
+decir que $W$ es un cubrimiento mínimo.
+
+Sea $Z$ el conjunto de formado por la unión de $A \setminus A_q$ y el conjunto de vértices que a los que se puede llegar usando
+caminos $Q$ alternantes partiendo de los vértices de $A \setminus A_q$.
+
+Ahora si se define $K = (A_q\setminus Z) \cup (B_q \cap Z)$ se puede demostrar que $K$ es un cubrimiento de vértices. Observe que
+para cada arista $\langle x, y \rangle \in E$ con $x\in A$ y $y\in B$ se cumple que $x \in A_q \vee y \in B_q$ porque si no $Q$
+no sería máximo: si $\langle x, y \rangle$ pertenece a uno de los caminos $Q$ alternantes entonces $y \in B_q \cap Z$ porque todas las aristas
+que pertenecen a un camino $Q$ alternante tienen un vértice en $B_q$, de lo contrario tendríamos un camino $Q$ aumentativo; ahora si $\langle x, y \rangle$
+no pertenece a ninguno de los caminos $Q$ alternantes entonces $x \in A_q\setminus Z$ porque si $x \notin A_q$ se cumple que $\langle x, y \rangle$
+pertenece a un camino $Q$ alternante.
+
+Solo resta demostrar que $|K|=|Q|$. Observe que para toda arista $\langle x, y \rangle \in Q$ con $x\in A$ y $y\in B$
+se cumple que: si $\langle x, y \rangle$ pertenece a uno de los caminos $Q$ alternantes entonces $y \in B_q \cap Z \wedge x \notin A_q\setminus Z$ porque $x\in Z$;
+ahora si $\langle x, y \rangle$ no pertenece a ninguno de los caminos $Q$ alternantes entonces $x \in A_q\setminus Z \wedge y \notin B_q \cap Z$ porque $x \notin Z$.
+Entonces como $(A_q\setminus Z) \cap (B_q \cap Z)= \emptyset$ por lo enunciado anteriormente se cumple que $|K|=|Q|$.
+
+\subsubsection{Algoritmo para obtener el cubrimiento mínimo}
+
+Como se demostró anteriormente en el teorema de \textbf{Kőnig} existe una equivalencia entre el emparejamiento máximo y
+el cubrimiento mínimo en un grafo \textbf{bipartito}.
+
+Si se toma la demostración anterior para encontrar un cubrimiento mínimo es necesario primeramente encontrar un emparejamiento
+máximo, para esto se puede usar el algoritmo de \textbf{Khun} (basado en el teorema de \textbf{Khun})
+o \textbf{Flujo Máximo}, ambos en una complejidad de $O(VE)$.
+
+Luego se puede encontrar el conjunto de vértices $Z$ mediante un \textbf{DFS} restringiendo el uso de caminos que no sean
+$Q$ alternantes, en una complejidad de $O(V+E)$.
+
+Solo resta formar el conjunto $K$, lo cual se puede lograr mediante los conjuntos $A$, $B$, $A_q$, $B_q$ y $Z$, en una complejidad
+de $O(V)$.
+
+\subsubsection{Utilizando \textbf{Kőnig} y el cubrimiento mínimo}
+
+Si se emplea el teorema de \textbf{Kőnig} demostrado anteriormente se puede pasar a analizar el problema de forma diferente,
+es decir existe una equivalencia entre $M(G)$ y $C(G)$ donde $G$ es un grafo \textbf{bipartito} ahora se puede buscar
+la menor candad de vértices tal que al eliminarlos la cardinalidad del cubrimiento mínimo disminuya exactamente en 1 y dicho conjunto cumplirá
+con las restricciones del problema original.
+
+Se puede realizar la siguiente observación si $V_c$ es un cubrimiento de vértices de $G = V, E$ entonces para cualquier vértice $v \in V_c$, sea $V'_c=V_c - v$
+y $V'= V-v$, se cumple que $V'_c$ es un cubrimiento de vértices del grafo $I(G,V')$. Para demostrar el anterior enunciado observe que para toda arista $e\in E$ 
+se cumple que $e$ incide sobre alguno de los vértices de $V_c$, por tanto las únicas aristas de
+$E$ que no inciden sobre $V'_c$ son las que únicamente incidían sobre $v$ y dichas aristas no pertenecen a $I(G,V')$,
+por lo que como las aristas de $I(G,V')$ son subconjunto de $E$ entonces se cumple que $V'_c$ cubre todas las aristas
+de $I(G,V')$.
+
+Ahora dado el razonamiento anterior si $V_c$ es un cubrimiento mínimo de vértices de $G = V, E$ entonces para cualquier vértice $v \in V_c$, sea $V'_c=V_c - v$
+y $V'= V-v$, se cumple que $V'_c$ es un cubrimiento mínimo de vértices del grafo $I(G,V')$. Como ya se demostró que $V'_c$ es un cubrimiento de vértices
+solo falta demostrar que $V_c$ es mínimo. Para ello suponga que existe un cubrimiento menor $V''_c$ del grafo $I(G,V')$, entonces si se añade $v$ a dicho
+cubrimiento se obtiene un cubrimiento de $G$, ya que todas las aristas que estaban en $G$ y no en $I(G,V')$ incidían sobre
+$v$ lo cual contradice el hecho de que $V_c$ sea mínimo.
+
+Luego si se elimina cualquier vértice $v$ de $G$ que participe en un cubrimiento mínimo obtenemos un grafo que cuya cardinalidad del cubrimiento mínimo disminuye en 1
+con respecto a la cardinalidad del cubrimiento mínimo en el grafo original.
+
+Ahora se puede utilizar el resultado demostrado anteriormente para responder eficientemente las consultas de tipo 1. Para ello es necesario
+primeramente obtener un cubrimiento mínimo en el grafo de entrada (esto se puede lograr mediante el algoritmo descrito anteriormente)
+y cada vez que se proporcione una consulta de este tipo seleccionar un vértice de dicho conjunto.
+
+Para las consultas de tipo 2, es necesario mantener un emparejamiento que se corresponda con el cubrimiento mínimo de vértices del grafo actual.
+Para ello se puede emplear el algoritmo descrito anteriormente para encontrar el cubrimiento mínimo en el grafo inicial
+y cuando se procese una consulta del tipo 1 eliminar la arista del emparejamiento que incide sobre el vértice que se va a eliminar (esto siempre
+es posible porque para todo vértice del cubrimiento mínimo inicial existe una arista del emparejamiento que incide sobre dicho vértice
+y para cada arista del emparejamiento inicial exactamente uno de sus 2 vértices pertenece al cubrimiento mínimo), por tanto al eliminar dicha arista
+se obtiene un emparejamiento con cardinalidad igual al cubrimiento mínimo de vértices y por el teorema de \textbf{Kőnig} se puede asegurar
+que este emparejamiento es máximo.
+
+Entonces para resolver el ejercicio primero es necesario encontrar un cubrimiento mínimo y el emparejamiento máximo asociado a dicho cubrimiento
+esto tiene una complejidad de $O(VE)$ empleando el algoritmo descrito anteriormente, las consultas de tipo 1 se pueden responder en una
+complejidad de $O(1)$ y las de tipo 2 en una complejidad de $O(M)$ donde $M$ es la cardinalidad del emparejamiento máximo del grafo actual.
+
+
+
+
+
+\end{document}
