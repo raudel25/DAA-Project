@@ -31,6 +31,10 @@ urlcolor=blue, }
     {\href{https://github.com/raudel25/DAA-Project}{Proyecto en github} \par}
 \end{titlepage}
 
+\tableofcontents
+
+\newpage
+
 \section{Reducción de Emparejamiento}
 
 \subsection{Ejercicio}
@@ -94,7 +98,6 @@ Después de imprimir la respuesta a una consulta, no olvides vaciar el búfer de
     \item Cobertura de vértices
 \end{itemize}
 
-
 \subsection{Solución}
 
 En el ejercicio se tiene un grafo \textbf{bipartito} en el que se debe responder a dos tipos de consultas, en la primera
@@ -113,7 +116,7 @@ manteniendo el estado del grafo.\\
     \item Se define el grafo inducido de $G=V,E$, por $V'$ tal que $V'\subset V$ como $I(G,V')$.
 \end{itemize}
 
-\subsubsection{Algoritmo naive}
+\subsubsection{Fuerza bruta}
 
 El primer acercamiento para resolver este problema es primeramente encontrar un emparejamiento máximo en el grafo de entrada,
 para esto ya que dicho grafo es \textbf{bipartito} se puede usar el algoritmo de \textbf{Khun} (basado en el teorema de \textbf{Khun})
@@ -123,7 +126,7 @@ Luego cuando se necesite analizar una consulta del tipo 1, se puede iterar por t
 $V' \subset V$ y $|M(I(G,V'))|=|M(G)|-1$ y elegir el conjunto de mayor cardinalidad, este algoritmo es algo lento ya que su complejidad es de $O(2^{|V|}V E)$.
 
 Para las consultas de tipo 2 solo se debe guardar el emparejamiento encontrado en la consulta de tipo 1 anterior e informar
-las aristas que pertenecen a dicho emparejamiento, en una complejidad de $O(M)$ donde $M$ es la cardinalidad del emparejamiento máximo del grafo actual.
+las aristas que pertenecen a dicho emparejamiento, en una complejidad de $O(q)$ donde $q$ es la cardinalidad del emparejamiento máximo del grafo actual.
 
 \subsubsection{Teorema Kőnig}
 
@@ -156,7 +159,7 @@ se cumple que: si $\langle x, y \rangle$ pertenece a uno de los caminos $Q$ alte
 ahora si $\langle x, y \rangle$ no pertenece a ninguno de los caminos $Q$ alternantes entonces $x \in A_q\setminus Z \wedge y \notin B_q \cap Z$ porque $x \notin Z$.
 Entonces como $(A_q\setminus Z) \cap (B_q \cap Z)= \emptyset$ por lo enunciado anteriormente se cumple que $|K|=|Q|$.
 
-\subsubsection{Algoritmo para obtener el cubrimiento mínimo}
+\subsubsection{Obtener el cubrimiento mínimo}
 
 Como se demostró anteriormente en el teorema de \textbf{Kőnig} existe una equivalencia entre el emparejamiento máximo y
 el cubrimiento mínimo en un grafo \textbf{bipartito}.
@@ -179,7 +182,7 @@ la menor candad de vértices tal que al eliminarlos la cardinalidad del cubrimie
 con las restricciones del problema original.
 
 Se puede realizar la siguiente observación si $V_c$ es un cubrimiento de vértices de $G = V, E$ entonces para cualquier vértice $v \in V_c$, sea $V'_c=V_c - v$
-y $V'= V-v$, se cumple que $V'_c$ es un cubrimiento de vértices del grafo $I(G,V')$. Para demostrar el anterior enunciado observe que para toda arista $e\in E$ 
+y $V'= V-v$, se cumple que $V'_c$ es un cubrimiento de vértices del grafo $I(G,V')$. Para demostrar el anterior enunciado observe que para toda arista $e\in E$
 se cumple que $e$ incide sobre alguno de los vértices de $V_c$, por tanto las únicas aristas de
 $E$ que no inciden sobre $V'_c$ son las que únicamente incidían sobre $v$ y dichas aristas no pertenecen a $I(G,V')$,
 por lo que como las aristas de $I(G,V')$ son subconjunto de $E$ entonces se cumple que $V'_c$ cubre todas las aristas
@@ -208,10 +211,154 @@ que este emparejamiento es máximo.
 
 Entonces para resolver el ejercicio primero es necesario encontrar un cubrimiento mínimo y el emparejamiento máximo asociado a dicho cubrimiento
 esto tiene una complejidad de $O(VE)$ empleando el algoritmo descrito anteriormente, las consultas de tipo 1 se pueden responder en una
-complejidad de $O(1)$ y las de tipo 2 en una complejidad de $O(M)$ donde $M$ es la cardinalidad del emparejamiento máximo del grafo actual.
+complejidad de $O(1)$ y las de tipo 2 en una complejidad de $O(q)$ donde $q$ es la cardinalidad del emparejamiento máximo del grafo actual.
 
+\section{Número de subarreglos k-buenos}
 
+\subsection{Ejercicio}
 
+\href{https://codeforces.com/problemset/problem/1982/E}{Link del problema en la plataforma \textbf{Codeforces}}
 
+\begin{itemize}
+    \item límite de tiempo por prueba: 2 segundos
+    \item límite de memoria por prueba: 256 megabytes
+\end{itemize}
+
+Sea $\text{bit}(x)$ el número de unos en la representación binaria de un número entero no negativo $x$.
+
+Un subarreglo de un arreglo se llama $k$-bueno si consiste solo en números que no tienen más de $k$ unos en su representación binaria. Es decir, un subarreglo $(l, r)$ del arreglo $a$ es bueno si para cualquier $i$ tal que $l \leq i \leq r$ se cumple la condición $\text{bit}(a_i) \leq k$.
+
+Se te da un arreglo $a$ de longitud $n$, que consiste en enteros no negativos consecutivos que comienzan desde 0, es decir, $a_i = i$ para $0 \leq i \leq n-1$ (en indexación basada en 0). Necesitas contar el número de subarreglos $k$-buenos en este arreglo.
+
+Dado que la respuesta puede ser muy grande, imprime el resultado módulo $10^9 + 7$.\\
+
+\textbf{Entrada}\\
+
+Cada prueba consiste en múltiples casos de prueba. La primera línea contiene un número entero $t$ $(1 \leq t \leq 10^4)$ — el número de casos de prueba. Las siguientes líneas describen los casos de prueba.
+
+La única línea de cada caso de prueba contiene dos enteros $n$, $k$ $(1 \leq n \leq 10^{18}, 1 \leq k \leq 60)$.\\
+
+\textbf{Salida}\\
+
+Para cada caso de prueba, imprime un solo número entero: el número de subarreglos $k$-buenos módulo $10^9 + 7$.
+
+\subsection{Etiquetas}
+
+\begin{itemize}
+    \item Máscara de bits
+    \item Divide y Conquista
+    \item Programación Dinámica
+\end{itemize}
+
+\subsection{Solución}
+
+En el ejercicio se tiene un arreglo de los números de 0 a $n-1$ en orden creciente y se debe responder el número de subarreglos
+$k$-buenos. La principal dificultad para el ejercicio es contar eficientemente el número de estos subarreglos así que primeramente
+se puede abordar un algoritmo de fuerza bruta para resolver el ejercicio.\\
+
+\textbf{Nota:} En la solución del ejercicio se usarán números soportados por la aritmética de la computadora (hasta 64 bits),
+por lo que las operaciones con los bits de los números se consideran constantes. Para llevar esta solución a otro modelo de cómputo
+puede considerar las operaciones de bits sobre $n$ en una complejidad de $O(\text{log}(n))$.
+
+\subsubsection{Fuerza bruta}
+
+Para resolver este ejercicio observe que se pueden probar con todos los posibles subarreglos y determinar por cada subarreglo
+si este es $k$-bueno o no. Para ello se puede encontrar todos los subarreglos en una complejidad de $O(n^2)$ y comprobar si un
+subarreglo es $k$-bueno tiene una complejidad de $O(n)$, para una complejidad total de $O(n^3)$.
+
+\subsubsection{Mejorando la fuerza bruta}
+
+Observe que se puede mejorar el algoritmo anterior haciendo la siguiente observación: si se tiene que un subarreglo $(l,r)$ es $k$-bueno
+entonces se puede asegurar que para todo $x$ tal que $l<x\leq r$ se cumple que el subarreglo $(l,x)$ es $k$-bueno, por otro lado si se
+tiene que un subarreglo $(l,r)$ no es $k$-bueno entonces se puede asegurar que para todo $x$ tal que $r\leq x\leq n$ se cumple que el subarreglo
+$(l,x)$ no es $k$-bueno.
+
+Ahora si para cada índice $l$ se calcula el mayor $r$ tal que $(l,r)$ es $k$-bueno se puede obtener el número de subarreglos $k$-buenos
+que comienzan en $l$. Para esto se puede iterar por todos los índices $x$ de 1 hasta $n$ en una complejidad de $O(n)$ y para cada
+índice $x$, iterar $y$ desde $x$ hasta que se cumpla que $y>n$ o $\text{bit}(a_y)>k$ con una complejidad de $O(n)$, para una complejidad
+total de $O(n^2)$.
+
+\subsubsection{Divide y Conquista}
+
+Ahora para continuar mejorando la solución del ejercicio se puede utilizar un enfoque se divide y conquista. Para ello se puede
+buscar la mayor potencia de 2 que es menor que $n$ o simplemente el último bit activo de $n$ y elegir esta potencia como pivote,
+observe que en la parte izquierda del pivote solo se deben buscar subarreglos $k$-buenos de 0 a $2^q-1$ ($q$ es el último bit activo de $n$)
+mientras en la parte derecha del pivote todos los números tienen activado el bit $q$ ($q$ es el último bit activo para cada uno de
+estos números) por lo que se puede buscar subarreglos de $(k-1)$-buenos de 0 a $n-2^q-1$ (aquí el truco radica en restar $2^q$ a todos los
+números en la parte izquierda del pivote y trabajar desde 0 a $n-2^q-1$).
+
+Entonces resta resolver la parte de la conquista eficientemente, es decir buscar los arreglos $k$-buenos que tengan el extremo
+izquierdo de a la izquierda del pivote y el extremo derecho a la derecha del del pivote. Para ello se define la función $f(n,k)=(c,l,r)$,
+la función $f(n,k)$ retorna el número de subarreglos $k$-buenos de 0 a $n-1$, la longitud de del subarreglo $k$-bueno más grande
+que comienza en 0 y la longitud de del subarreglo $k$-bueno más grande que termina en $n-1$, respectivamente, observe que $l$ y $r$ pueden
+ser igual a 0. Ahora la cantidad de subarreglos pertenecientes a la conquista simplemente es la multiplicación del tamaño del
+subarreglo más grande que termina en $2^q$ y el tamaño del subarreglo más grande que comienza en $2^q$. El resto de la solución
+usando este método consiste en el mantenimiento de las invariantes descritas, a continuación se presenta un pseudocódigo:
+
+\begin{verbatim}
+    f(n, k){
+        q <-- último bit activo de n 
+
+        if(k < 0)
+            return 0, 0, 0
+
+        if(n == 0)
+            return 1, 1, 1
+
+        if(2**q == n) 
+            q--
+
+        c1, l1, r1 = f(2**q,k)
+        c2, l2, r2 = f(n - 2**q,k - 1)
+
+        l = l1 == 2**q ? l1 + l2 : l1
+        r = r2 == n - 2**q ? r2 + r1 : r2
+
+        return c1 + c2 + r1 * l2, l, r 
+    }
+\end{verbatim}
+
+Solo falta analizar la complejidad temporal, en cada llamado recursivo dividimos la entrada en 2 y hacemos 2 llamadas recursivas,
+la conquista tiene una complejidad de $O(1)$ por lo que el $T(n)$ recursivo quedaría de la siguiente manera: $T(n) = 2T(n/2) + c$,
+por lo que la complejidad final es $O(n)$.
+
+\subsubsection{Programación Dinámica}
+
+Si se observa el algoritmo descrito en la sección anterior, cuando se divide el tamaño de la entrada en la parte izquierda del pivote
+siempre se hace buscan los subarreglos de 0 a $n-1$, donde $n$ siempre es una potencia de 2, por lo que si se memoriza los valores de
+$f(n,k)$ cuando $n$ es una potencia de 2, la suma de todos los llamados que se realizan en la parte izquierda tiene una complejidad total
+de $O(\text{log}(n)k)$.
+
+\begin{verbatim}
+    f(n, k){
+        q <-- último bit activo de n 
+
+        if(k < 0)
+            return 0, 0, 0
+
+        if(n == 0)
+            return 1, 1, 1
+
+        if(dp[q][k] and n == 2**q)
+            return dp[q][k]
+
+        if(2**q == n) 
+            q--
+
+        c1, l1, r1 = f(2**q,k)
+        c2, l2, r2 = f(n - 2**q,k - 1)
+
+        l = l1 == 2**q ? l1 + l2 : l1
+        r = r2 == n - 2**q ? r2 + r1 : r2
+
+        if(2**q == n)
+            dp[q][k] = c1 + c2 + r1 * l2, l, r  
+        
+        return c1 + c2 + r1 * l2, l, r 
+    }
+\end{verbatim}
+
+Entonces con esta modificación el $T(n)$ recursivo quedaría de la siguiente manera: $T(n) = T(n/2) + c$,
+por lo que la complejidad del $T(n)$ es $O(\text{log}(n))$ y la complejidad final es $O(\text{log}(n)k)$.
 
 \end{document}
