@@ -1,26 +1,37 @@
 # DAA-Project
 
-https://codeforces.com/contest/1982/problem/E
-- Divide and conquer
+## Problems
+
+### Problem A
+
+[Codeforces link](https://codeforces.com/contest/1721/problem/F)
+
+[Project link](https://github.com/raudel25/DAA-Project/blob/main/problems/a/a.md)
+
+- Flow
+- Matching
+- Vertex Cover
+
+### Problem B
+
+[Codeforces link](https://codeforces.com/contest/1982/problem/E)
+
+[Project link](https://github.com/raudel25/DAA-Project/blob/main/problems/b/b.md)
+
+- Bitmasks
+- Divide and Conquer
 - Db
 
-https://codeforces.com/problemset/problem/802/I
-- Suffix array
-- Rmq
-- Binary search
+### Problem C
 
-https://codeforces.com/problemset/problem/1562/E
-- Suffix array
-- Dp
+[Codeforces link](https://codeforces.com/gym/105053/problem/F)
 
-https://codeforces.com/problemset/problem/873/F
-- Suffix array
-- Dp
-- Binary search
-- Rmq
+[Project link](https://github.com/raudel25/DAA-Project/blob/main/problems/c/c.md)
 
-https://codeforces.com/problemset/gymProblem/102219/F
-- Dp (mascara de bits)
+- Subset Sum
+- Number Theory
+- Knapsack DP
 
-https://codeforces.com/contest/1996/problem/F
-- Binary search  
+## Report
+
+You can download the report in this [link](https://github.com/raudel25/DAA-Project/blob/main/report.pdf).

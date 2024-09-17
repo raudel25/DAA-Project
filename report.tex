@@ -246,7 +246,7 @@ Para cada caso de prueba, imprime un solo número entero: el número de subarreg
 
 \begin{itemize}
     \item Máscara de bits
-    \item Divide y Conquista
+    \item Divide y Vencerás
     \item Programación Dinámica
 \end{itemize}
 
@@ -278,9 +278,9 @@ que comienzan en $l$. Para esto se puede iterar por todos los índices $x$ de 1 
 índice $x$, iterar $y$ desde $x$ hasta que se cumpla que $y>n$ o $\text{bit}(a_y)>k$ con una complejidad de $O(n)$, para una complejidad
 total de $O(n^2)$.
 
-\subsubsection{Divide y Conquista}
+\subsubsection{Divide y Vencerás}
 
-Ahora para continuar mejorando la solución del ejercicio se puede utilizar un enfoque se divide y conquista. Para ello se puede
+Ahora para continuar mejorando la solución del ejercicio se puede utilizar un enfoque se divide y vencerás. Para ello se puede
 buscar la mayor potencia de 2 que es menor que $n$ o simplemente el último bit activo de $n$ y elegir esta potencia como pivote,
 observe que en la parte izquierda del pivote solo se deben buscar subarreglos $k$-buenos de 0 a $2^q-1$ ($q$ es el último bit activo de $n$)
 mientras en la parte derecha del pivote todos los números tienen activado el bit $q$ ($q$ es el último bit activo para cada uno de
@@ -296,7 +296,7 @@ subarreglo más grande que termina en $2^q$ y el tamaño del subarreglo más gra
 usando este método consiste en el mantenimiento de las invariantes descritas, a continuación se presenta un pseudocódigo:
 
 \begin{verbatim}
-    f(n, k){
+    f(n, k) {
         q <-- último bit activo de n 
 
         if(k < 0)
@@ -308,8 +308,8 @@ usando este método consiste en el mantenimiento de las invariantes descritas, a
         if(2**q == n) 
             q--
 
-        c1, l1, r1 = f(2**q,k)
-        c2, l2, r2 = f(n - 2**q,k - 1)
+        c1, l1, r1 = f(2**q, k)
+        c2, l2, r2 = f(n - 2**q, k - 1)
 
         l = l1 == 2**q ? l1 + l2 : l1
         r = r2 == n - 2**q ? r2 + r1 : r2
@@ -330,7 +330,7 @@ $f(n,k)$ cuando $n$ es una potencia de 2, la suma de todos los llamados que se r
 de $O(\text{log}(n)k)$.
 
 \begin{verbatim}
-    f(n, k){
+    f(n, k) {
         q <-- último bit activo de n 
 
         if(k < 0)
@@ -345,8 +345,8 @@ de $O(\text{log}(n)k)$.
         if(2**q == n) 
             q--
 
-        c1, l1, r1 = f(2**q,k)
-        c2, l2, r2 = f(n - 2**q,k - 1)
+        c1, l1, r1 = f(2**q, k)
+        c2, l2, r2 = f(n - 2**q, k - 1)
 
         l = l1 == 2**q ? l1 + l2 : l1
         r = r2 == n - 2**q ? r2 + r1 : r2
@@ -360,5 +360,56 @@ de $O(\text{log}(n)k)$.
 
 Entonces con esta modificación el $T(n)$ recursivo quedaría de la siguiente manera: $T(n) = T(n/2) + c$,
 por lo que la complejidad del $T(n)$ es $O(\text{log}(n))$ y la complejidad final es $O(\text{log}(n)k)$.
+
+\section{Distribución Justa}
+
+\subsection{Ejercicio}
+
+\begin{itemize}
+    \item límite de tiempo por prueba: 0.35 segundos
+    \item límite de memoria por prueba: 1024 megabytes
+\end{itemize}
+
+Un empresario tiene $N$ planos, cada uno describiendo un tipo de edificio. Cada plano especifica la altura del edificio mediante dos enteros $G$ y $R$.
+
+\begin{itemize}
+    \item $G$: Altura del piso de planta baja. Puede ser cero, lo que indica que el edificio no tiene planta baja.
+    \item $R$: Altura de cada piso residencial. Cada edificio tiene al menos un piso residencial.
+\end{itemize}
+
+El empresario quiere distribuir todos estos planos entre sus dos hijos, Alicia y Bob. Cada hijo construirá exactamente un edificio de cada plano que se le asigne, eligiendo el número de pisos residenciales para cada edificio.
+
+El empresario quiere evitar mostrar favoritismo hacia cualquiera de los hijos, por lo que busca una distribución justa de los planos. Decidió que una distribución justa es aquella en la que es posible construir los edificios de tal manera que la suma de las alturas de los edificios construidos por cada hijo sea la misma. ¿Puedes decir si existe una distribución justa?
+
+Considera el siguiente ejemplo con $N=3$ planos:
+
+\begin{itemize}
+    \item $G=1$ y $R=1$ (las alturas posibles son 2, 3, 4,…);
+    \item $G=0$ y $R=3$ (sin planta baja, las alturas posibles son 3, 6, 9,…);
+    \item $G=2$ y $R=1$ (las alturas posibles son 3, 4, 5,…).
+\end{itemize}
+
+En este caso, una distribución justa posible es asignar el segundo plano a Alicia y el resto a Bob.
+Aunque Alicia recibe un solo plano mientras que Bob recibe dos, pueden construir dos pisos residenciales en el primer tipo de edificio (altura 3), dos pisos residenciales en el segundo (altura 6) y un piso residencial en el tercero (altura 3). De esta manera, la suma de las alturas de los edificios construidos por cada hijo sería 6.\\
+
+\textbf{Entrada}\\
+
+La primera línea contiene un número entero $N$ $(1\leq N\leq 2\cdot 10^5)$ que indica el número de planos.\\
+
+Cada una de las siguientes $N$ líneas contiene dos enteros $G$ $(0\leq G\leq 2\cdot 10^5)$ y $R$ $(1\leq R\leq 10^9)$, que denotan respectivamente la altura de la planta baja y la altura de cada piso residencial especificada por el plano correspondiente. La suma de las alturas de las plantas bajas de todos los planos es como máximo $2\cdot 10^5$.\\
+
+\textbf{Salida}\\
+
+Imprime una sola línea con la letra mayúscula \textbf{S} si existe una distribución justa de los planos, y la letra mayúscula \textbf{N} en caso contrario.
+
+\subsection{Etiquetas}
+
+\begin{itemize}
+    \item Suma de subconjunto
+    \item Teoría de Números
+    \item Mochila DP
+\end{itemize}
+
+\subsection{Solución}
 
 \end{document}

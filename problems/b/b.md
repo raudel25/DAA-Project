@@ -19,5 +19,5 @@ Each test consists of multiple test cases. The first line contains an integer $t
 
 The single line of each test case contains two integers $n$, $k$ $(1\leq n\leq 10^{18},1\leq k\leq 60)$.
 
-## Output
+### Output
 For each test case, output a single integer — the number of $k$-good subarrays modulo $10^9+7$.
