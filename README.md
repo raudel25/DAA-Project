@@ -28,6 +28,7 @@
 
 [Project link](https://github.com/raudel25/DAA-Project/blob/main/problems/c/c.md)
 
+- Partition Problem
 - Subset Sum
 - Number Theory
 - Knapsack DP

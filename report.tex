@@ -1,4 +1,5 @@
 \documentclass{article}
+
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -135,7 +136,7 @@ entre estos 2 conjuntos es decir como dado un emparejamiento máximo encontrar u
 
 \textbf{Demostración:}
 
-Sea un grafo \textbf{bipartito} $G=V,E$, con $A$ y $B$ los conjuntos de vértices que representan la bipartición, definamos $Q = M(G)$ y
+Sea un grafo \textbf{bipartito} $G=V,E$ con $A$ y $B$ los conjuntos de vértices que representan la bipartición, definamos $Q = M(G)$ y
 $A_q = \{ x \in A \mid \exists y \text{ tal que } \langle x, y \rangle \in Q \}$
 y $B_q = \{ y \in B \mid \exists x \text{ tal que } \langle x, y \rangle \in Q \}$.
 
@@ -150,7 +151,7 @@ caminos $Q$ alternantes partiendo de los vértices de $A \setminus A_q$.
 Ahora si se define $K = (A_q\setminus Z) \cup (B_q \cap Z)$ se puede demostrar que $K$ es un cubrimiento de vértices. Observe que
 para cada arista $\langle x, y \rangle \in E$ con $x\in A$ y $y\in B$ se cumple que $x \in A_q \vee y \in B_q$ porque si no $Q$
 no sería máximo: si $\langle x, y \rangle$ pertenece a uno de los caminos $Q$ alternantes entonces $y \in B_q \cap Z$ porque todas las aristas
-que pertenecen a un camino $Q$ alternante tienen un vértice en $B_q$, de lo contrario tendríamos un camino $Q$ aumentativo; ahora si $\langle x, y \rangle$
+que pertenecen a un camino $Q$ alternante tienen un vértice en $B_q$, de lo contrario se tendría un camino $Q$ aumentativo; ahora si $\langle x, y \rangle$
 no pertenece a ninguno de los caminos $Q$ alternantes entonces $x \in A_q\setminus Z$ porque si $x \notin A_q$ se cumple que $\langle x, y \rangle$
 pertenece a un camino $Q$ alternante.
 
@@ -194,7 +195,7 @@ solo falta demostrar que $V_c$ es mínimo. Para ello suponga que existe un cubri
 cubrimiento se obtiene un cubrimiento de $G$, ya que todas las aristas que estaban en $G$ y no en $I(G,V')$ incidían sobre
 $v$ lo cual contradice el hecho de que $V_c$ sea mínimo.
 
-Luego si se elimina cualquier vértice $v$ de $G$ que participe en un cubrimiento mínimo obtenemos un grafo que cuya cardinalidad del cubrimiento mínimo disminuye en 1
+Luego si se elimina cualquier vértice $v$ de $G$ que participe en un cubrimiento mínimo se obtiene un grafo que cuya cardinalidad del cubrimiento mínimo disminuye en 1
 con respecto a la cardinalidad del cubrimiento mínimo en el grafo original.
 
 Ahora se puede utilizar el resultado demostrado anteriormente para responder eficientemente las consultas de tipo 1. Para ello es necesario
@@ -284,7 +285,7 @@ Ahora para continuar mejorando la solución del ejercicio se puede utilizar un e
 buscar la mayor potencia de 2 que es menor que $n$ o simplemente el último bit activo de $n$ y elegir esta potencia como pivote,
 observe que en la parte izquierda del pivote solo se deben buscar subarreglos $k$-buenos de 0 a $2^q-1$ ($q$ es el último bit activo de $n$)
 mientras en la parte derecha del pivote todos los números tienen activado el bit $q$ ($q$ es el último bit activo para cada uno de
-estos números) por lo que se puede buscar subarreglos de $(k-1)$-buenos de 0 a $n-2^q-1$ (aquí el truco radica en restar $2^q$ a todos los
+estos números) por lo que se puede buscar subarreglos $(k-1)$-buenos de 0 a $n-2^q-1$ (aquí el truco radica en restar $2^q$ a todos los
 números en la parte izquierda del pivote y trabajar desde 0 a $n-2^q-1$).
 
 Entonces resta resolver la parte de la conquista eficientemente, es decir buscar los arreglos $k$-buenos que tengan el extremo
@@ -363,6 +364,8 @@ por lo que la complejidad del $T(n)$ es $O(\text{log}(n))$ y la complejidad fina
 
 \section{Distribución Justa}
 
+\href{https://codeforces.com/gym/105053/problem/F}{Link del problema en la plataforma \textbf{Codeforces}}
+
 \subsection{Ejercicio}
 
 \begin{itemize}
@@ -405,18 +408,26 @@ Imprime una sola línea con la letra mayúscula \textbf{Y} si existe una distrib
 \subsection{Etiquetas}
 
 \begin{itemize}
-    \item Suma de subconjunto
+    \item Problema de Partición
+    \item Suma de Subconjunto
     \item Teoría de Números
     \item Mochila DP
 \end{itemize}
 
 \subsection{Solución}
 
-Para este problema se deben particionar el conjunto de los planos de los edificios en 2 subconjuntos, para asignar a Alice y a Bbb
+Para este problema se deben particionar el conjunto de los planos de los edificios en 2 subconjuntos, para asignar a Alice y a Bob
 respectivamente de tal manera que exista una configuración en la que la suma de los edificios construidos por cada uno sea igual.
 
 Para la solución de este problema primero se eliminará la restricción de la suma de las alturas de las plantas bajas y luego
-se resolverá el ejercicio usando esta restricción.
+se resolverá el ejercicio usando esta restricción.\\
+
+\textbf{Definiciones:}
+
+\begin{itemize}
+    \item Se define $\text{sum}(A)$ como la suma de todos los elementos del conjunto $A$.
+\end{itemize}
+
 
 \subsubsection{Teoría de Números}
 
@@ -448,9 +459,9 @@ Sea la ecuación de $ax+by=c$, con $a>0 \wedge b>0$ por el teorema de \textbf{Be
 \begin{equation}
     x=x_0-k{b\over d} \wedge y=y_0+k{a\over d}
 \end{equation}
-donde $x_0$ y $y_0$ son soluciones particulares de la ecuación y $d=\text{mcd}(a,b)$. Observe que siempre podemos garantizar
+donde $x_0$ y $y_0$ son soluciones particulares de la ecuación y $d=\text{mcd}(a,b)$. Observe que siempre se puede garantizar
 que exista una solución $x=x'$ y $y=y'$, con $x'>0 \wedge y'<0$, ya que independientemente del signo de $x_0$ y $y_0$ se puede
-seleccionar un $k$ negativo con módulo lo suficientemente grande para encontrar $x'$ y $y'$
+seleccionar un $k$ negativo con módulo lo suficientemente grande para encontrar $x'$ y $y'$.
 
 Ahora volviendo al ejercicio, por la observación anterior se puede asegurar que existe una solución mayor que 0 para $x_{a_1}$ la ecuación:
 
@@ -503,9 +514,218 @@ Entonces se ha demostrado que el ejercicio es equivalente a encontrar dos conjun
 $P \neq \emptyset $, $Q \neq \emptyset$, $P \cap Q=\emptyset$ y además debe cumplirse que:
 
 \begin{equation}
-    \text{mcd}(r_1,r_2,\ldots ,r_n) \mid \sum_{i=0}^{|P|} p_i - \sum_{i=0}^{|Q|} q_i
+    \text{mcd}(r_1,r_2,\ldots ,r_n) \mid \text{sum}(P) - \text{sum}(Q)
 \end{equation}
 donde los $p_i$ y $q_i$ son los elementos que de los conjuntos $P$ y $Q$ respectivamente.
 
+\subsubsection{Reducción al Problema de Partición}
+
+El \textbf{Problema de Partición} es un problema \textbf{NP-completo} que plantea si dado un conjunto de números es posible
+particionar dicho conjunto en 2 subconjuntos tal que la suma sea la misma.
+
+En esta sección se demostrará que el problema del ejercicio analizado es \textbf{NP-completo}, para ello primero es necesario demostrar
+que el problema es \textbf{NP} y luego basta con demostrar que cualquier instancia del \textbf{Problema de Partición} puede ser reducida
+una instancia del problema del ejercicio.
+
+Primeramente observe que dado una partición de $G$ en $P$ y $Q$ es posible comprobar en tiempo polinomial si $\text{mcd}(r_1,r_2,\ldots ,r_n) \mid \text{sum}(P) - \text{sum}(Q)$
+lo que demuestra que el problema del ejercicio está en \textbf{NP}.
+
+Entonces se tiene un conjunto $W$, a partir de este conjunto se puede construir una instancia del ejercicio, para ello seleccione
+los $r_i$ tal que $\text{mcd}(r_1,\ldots,r_n)=\text{sum}(W)$ y los para los $g_i$ tome exactamente los elementos del conjunto $W$. Ahora observe
+que la única manera de particionar $W$ en dos subconjunto $P$ y $Q$ tal que $\text{sum}(W) \mid \text{sum}(P) - \text{sum}(Q)$, es que
+$\text{sum}(P) - \text{sum}(Q)=0$ porque $\text{sum}(P) + \text{sum}(Q)=\text{sum}(W)$. Con lo cual se ha reducido el \textbf{Problema de Partición}
+al problema del ejercicio analizado, lo cual demuestra que el problema del ejercicio es \textbf{NP-completo}.
+
+En las próximas secciones se reducirá el problema de la partición a otros problemas \textbf{NP-completos}.
+
+\subsubsection{Reducción a la Suma de Subconjunto}
+
+La \textbf{Suma de Subconjunto} es un problema \textbf{NP-completo} que plantea si dado un conjunto de números es posible
+seleccionar un subconjunto tal que la suma de los elementos de dicho conjunto es igual a $k$.
+
+En esta sección se reducirá el problema de la \textbf{Suma de Subconjunto} al \textbf{Problema de Partición}, para demostrar
+que el \textbf{Problema de Partición} es \textbf{NP-completo}.
+
+Sea un conjunto $W$, observe que dado el conjunto $P$, tal que $P\subseteq W$, es posible comprobar en tiempo polinomial que $\text{sum}(P)=\text{sum}(W)/2$
+lo cual demuestra que la \textbf{Problema de Partición} es un problema \textbf{NP}.
+
+Sea un conjunto $W$ y un entero $k$, se define un conjunto $W'$ formado por todos los elementos de $W$ más los elementos
+$w_1=2k$ y $w_2=\text{sum}(W)$. Ahora si se trata de formar una partición de $W'$ con la restricción del \textbf{Problema de Partición},
+observe $w_1$ y $w_2$ no pueden estar en el mismo conjunto ya que su suma sería mayor que $\text{sum}(W)+k$, por tanto el conjunto
+que contenga a $w_2$ debe contener además un subconjunto de $W$ cuya suma sea $k$, que esta precisamente es una instancia del problema de la \textbf{Suma de Subconjunto}.
+Por otro lado si existe $W''$ tal que $W''\subseteq  W \wedge \text{sum}(W'')=k$, entonces el conjunto formado por los elementos de $W''$ y $w_2$
+sería una partición de $W''$ que cumple con las restricciones del \textbf{Problema de Partición}.
+
+\subsubsection{Reducción al Cubrimiento de Vértices}
+
+El \textbf{Cubrimiento de Vértices} es un problema \textbf{NP-completo} que plantea si dado un grafo $G=V,E$ y un entero $k$ es posible
+seleccionar un subconjunto de vértices $V'$ de tamaño $k$ de tal manera que todas las arista de $G$ incidan sobre al menos
+uno de los vértices de $V'$.
+
+En esta sección se reducirá el problema de la \textbf{Suma de Subconjunto} al \textbf{Cubrimiento de Vértices}, para demostrar
+que la \textbf{Suma de Subconjunto} es \textbf{NP-completo}.
+
+Sea un conjunto $W$ y un entero $k$, observe que dado el conjunto $P$, tal que $P\subseteq W$, es posible comprobar en tiempo polinomial que $\text{sum}(P)=k$
+lo cual demuestra que la \textbf{Suma de Subconjunto} es un problema \textbf{NP}.
+
+Sea un grafo $G=V,E$ y un entero $k$, donde $V=\{1,2,\ldots,n\}$, se definen los enteros en base 4 $a_i$ $\forall i : 1\leq i \leq n$ y $b_{i,j}$ $\forall i,j : <i,j> \in E$.
+Ahora se define una matriz de $|V|+|E|$ filas y $|E|+1$ columnas donde cada fila pertenece a un entero $a_i$ o un entero $b_{i,j}$. En la primera
+columna coloque un 1 en cada fila que pertenece a los $a_i$ y un 0 en cada fila correspondiente a los $b_{i,j}$. Cada una de las restantes columnas
+corresponde a una arista $\langle i,j \rangle\in E$, ahora para llenar la columna correspondiente a la arista $\langle i,j \rangle$ coloque un 1 en cada
+fila que pertenece a los $a_x$, donde $x=i\vee x=j$, un 1 en cada fila correspondiente a los $b_{x,y}$, donde $x=i \vee x=j \vee y=i \vee y=j$.
+
+Se define $k'$ de la siguiente manera:
+
+\begin{equation}
+    k'=4^{|E|}k+\sum_{i=0}^{|E|-1}2\cdot 4^i
+\end{equation}
+
+Tome un subconjunto de vértices y aristas $(V', E')$ tales que:
+
+\begin{equation}
+    \sum_{i\in V'} a_i + \sum_{\langle i,j\rangle \in E'} b_{i,j} = k'
+\end{equation}
+Primeramente observe que cada $b_{i,j}$ (con $\langle i,j\rangle \in E'$) puede tener como máximo un 1 en cada column, por tanto en cada una de
+las $|E|$ últimas columnas la suma máxima es 3, por lo que no hay acarreos. Entonces los únicos números que aportan
+$4^{|E|}$ son los $a_i$ y como $k'>4^{|E|}k$ se cumple que $|V'|=k$. Por otro lado como $k'$ tiene un 2 en cada columna que pertenecen
+a una arista $\langle i,j\rangle \in E$, se cumple que para cada arista $\langle i,j\rangle \in E$ $i\in V'\vee j\in V'$, lo cual implica
+que $V'$ es un \textbf{Cubrimiento de Vértices} de tamaño $k$.
+
+Ahora suponga que existe un subconjunto de vértices $V'$, donde $V'$ es un \textbf{Cubrimiento de Vértices} de tamaño $k$, luego seleccione
+los $a_i$ tales que $i\in V'$ y los $b_{i,j}$ tales que $i\in V'$ o $j\in V'$ pero no ambos a la vez. Al sumar todos estos números
+observe que se obtiene un subconjunto de números cuya suma es $k'$.
+
+Se presenta un ejemplo a continuación:
+\begin{itemize}
+    \item Se define un grafo $G=V,E$ y un entero $k=2$, donde $V=\{1,2,3,4\}$ y $E=\{\langle 1, 2 \rangle ,\langle 2, 3 \rangle ,\langle 3, 4 \rangle ,\langle 4, 1 \rangle\}$,
+          el conjunto $V'={1,3}$ es un \textbf{Cubrimiento de vértices} de tamaño $k$. Se define la matriz en la siguiente tabla:
+
+          \begin{table}[h]
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|}
+                  \hline
+                            &   & $\langle 1, 2 \rangle$ & $\langle 2, 3 \rangle$ & $\langle 3, 4 \rangle$ & $\langle 4, 1 \rangle$ \\ \hline
+                  $a_1$     & 1 & 1                      & 0                      & 0                      & 0                      \\ \hline
+                  $a_2$     & 1 & 1                      & 1                      & 0                      & 0                      \\ \hline
+                  $a_3$     & 1 & 0                      & 1                      & 1                      & 0                      \\ \hline
+                  $a_4$     & 1 & 0                      & 0                      & 1                      & 1                      \\ \hline
+                  $b_{1,2}$ & 0 & 1                      & 0                      & 0                      & 0                      \\ \hline
+                  $b_{2,3}$ & 0 & 0                      & 1                      & 0                      & 0                      \\ \hline
+                  $b_{3,4}$ & 0 & 0                      & 0                      & 1                      & 0                      \\ \hline
+                  $b_{4,1}$ & 0 & 0                      & 0                      & 0                      & 1                      \\ \hline
+              \end{tabular}
+          \end{table}
+
+    \item $k'=4^{4}\cdot 2+\sum_{i=0}^{3}2\cdot 4^i=682$
+    \item Si se selecciona los $a_i$ y los $b_{i,j}$ a partir de $V'$ se obtienen los números $a_1=321$, $a_3=276$, $b_{1,2}=64$, $b_{2,3}=16$, $b_{1,4}=1$, $b_{3,4}=4$
+          y se cumple que  $a_1+a_3+b_{1,2}+b_{2,3}+b_{1,4}+b_{3,4}=682=k$
+
+          Por tanto queda reducido el problema del \textbf{Cubrimiento de vértices} al problema de la \textbf{Suma de Subconjunto}.
+
+\end{itemize}
+
+\subsubsection{Fuerza bruta}
+
+Como se demostró anteriormente existe una condición necesaria y suficiente para que el problema tenga solución. Entonces para obtener
+un algoritmo de fuerza bruta que resuelva el problema, basta con encontrar todos los subconjuntos propios no vacíos de $G$ y comprobar que
+la partición que define cada subconjunto cumpla con la condición del problema. Esto se puede lograr mediante un \textbf{Backtrack}, pasar por
+cada índice $i$ llevando una suma global $s$ y tomar 2 decisiones sumar $g_i$ a $s$ o no, y por último al llegar al final comprobar la condición
+del problema. Este algoritmo tiene una complejidad de $O(2^n)$, la cual como se puede observar es exponencial.
+
+\subsubsection{Restricción Polinomial}
+
+Ahora se considerará la restricción del problema original, es decir se cumple que $\text{sum}(G) \leq 2\cdot 10^5$. Entonces es posible
+memorizar los estados del \textbf{Backtrack} enunciado en la sección anterior, es decir llevar además una arreglo de 2 dimensiones $dp[i][w]$ esto
+significa que se puede lograr un subconjunto con peso $w$ usando solo índices menores que o iguales que $i$, observe que ahora el algoritmo ha reducido su complejidad ya que la nueva complejidad
+es igual a la cantidad de estados del \textbf{Backtrack} que en este caso sería $O(\text{sum}(G)n)$ y como $\text{sum}(G) \leq 2\cdot 10^5$ sería
+$O(2\cdot 10^5n)$.
+
+Para mostrar una implementación más eficientemente desde el punto de vista computacional se pueden establecer las transiciones de la \textbf{Dinámica}
+y eliminar la recursividad del \textbf{Backtrack}, a continuación se muestra un pseudocódigo:
+
+\begin{verbatim}
+    for(i in n) {
+        dp[i][0] = true
+    }
+
+    for(i in n) { 
+        dp[i][g[i]] = true
+
+        for(w in sum(G)) {
+            if(i != 0 and dp[i - 1][w]) {
+                dp[i][w] = true
+            }
+    
+            if(w >= g[i] and i != 0 and dp[i - 1][w - g[i]]) {
+                dp[i][w] = true
+            }
+        }
+    }
+\end{verbatim}
+
+las transiciones del algoritmo anterior son las siguientes:
+
+\begin{itemize}
+    \item Siempre es posible obtener un conjunto que use índices menores iguales que $i$ con suma $g[i]$ o suma 0.
+    \item Si es posible formar un conjunto con indices menores o iguales a $i - 1$ con suma $w$, también es posible
+          obtener un conjunto cons sum $w$ usando índices menores o iguales que $i$.
+    \item Si es posible formar un conjunto con indices menores o iguales a $i - 1$ con suma $w - g[i]$, también es posible
+          obtener un conjunto cons sum $w$ usando índices menores o iguales que $i$.
+\end{itemize}
+La cantidad total de estados de la \textbf{Dinámica} es $\text{sum}(G)n$ y resolver cada estado cuesta $O(1)$, para
+una complejidad total de $O(\text{sum}(G)n)$. La \textbf{Dinámica} empleada en este
+es exactamente igual a la \textbf{Dinámica de la mochila} pero en este caso solo interesa conocer si es posible o no lograr ese peso.
+
+Ahora haga la siguiente observación si la cantidad de elementos $n\leq 2\cdot 10^5$ y $\text{sum}(G) \leq 2\cdot 10^5$, entonces en $G$ hay a lo sumo $\sqrt{n}$ elementos distintos,
+por tanto se puede aplicar el algoritmo de la \textbf{Dinámica de la mochila comprimida} que funciona en $O(cw)$, donde $w$ es la suma de
+todos los elementos del conjunto y $c$ es la cantidad de elementos distintos, en el caso particular del ejercicio la complejidad sería $O(2\cdot 10^5\sqrt{n})$
+lo cual es más eficiente que el algoritmo visto anteriormente.
+
+Para la implementación de la \textbf{Dinámica de la mochila comprimida} primeramente se debe calcular las ocurrencias de cada valor y luego
+definir $dp[i][w]$, donde $dp[i][w]$ guarda la cantidad mínima de elementos con peso $g'[i]$ para lograr un subconjunto con suma $w$ que use
+índice menores o iguales que $i$ ($g'$ son los elementos del conjunto $G$ luego de eliminar los pesos repetidos) o -1 en caso de que no sea posible.
+Las transiciones para el algoritmo quedarían de la siguiente manera:
+
+\begin{itemize}
+    \item Siempre es posible obtener un conjunto que use índices menores iguales que $i$ con suma 0, usando 0 elementos de peso $g'[i]$.
+    \item Si $dp[i-1][w]\geq 0$ entonces $dp[i][w]$, es decir si se puede obtener un subconjunto de suma
+          $w$ con índices menores o iguales que $i-1$ entonces también se puede encontrar un subconjunto con suma $w$ que use
+          índices menores o iguales que $i$
+    \item Si $dp[i][w - g'[i]] \geq 0 \wedge dp[i][w - g'[i]] < g'_c[i]$ entonces $dp[i][w]= dp[i][w - g'[i]]+1$, es decir
+          si la mínima cantidad de elementos con peso $g'[i]$ para formar un conjunto de suma $w$ es menor que la cantidad
+          de elementos con peso $g'[i]$ disponibles entonces la mínima la mínima cantidad elementos con peso $g'[i]$ necesarios
+          es exactamente $dp[i][w - g'[i]]+1$. Observe que la primera transición se debe comprobar antes de esta para garantizar
+          mínimo.
+\end{itemize}
+a continuación se muestra un pseudocódigo:
+
+\begin{verbatim}
+    c <-- cantidad de elementos distintos de G
+    g_count <-- array de tuplas con los pesos de los elementos de G y 
+                las ocurrencias de cada elemento
+
+    for(i in c) {
+        dp[i][0] = 0
+    }
+
+    for(i in c) { 
+        for(w in sum(G)) {
+            if (i != 0 && dp[i - 1][j] >= 0)
+            {
+                dp[i][j] = 0;
+                continue;
+            }
+
+            if (j >= g_count[i].f and dp[i][j - g_count[i].f] >= 0 
+                and dp[i][j - g_count[i].f] < g_count[i].s)
+            {
+                dp[i][j] = dp[i][j - g_count[i].f] + 1;
+                continue;
+            }
+        }
+    }
+\end{verbatim}
+La cantidad total de estados de la \textbf{Dinámica} es $\text{sum}(G)\sqrt{n}$ y resolver cada estado cuesta $O(1)$, para
+una complejidad total de $O(\text{sum}(G)\sqrt{n})$.
 
 \end{document}

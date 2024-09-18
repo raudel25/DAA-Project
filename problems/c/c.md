@@ -1,5 +1,7 @@
 # Fair Distribution
 
+https://codeforces.com/gym/105053/problem/F
+
 - time limit per test 0.35 seconds
 - memory limit per test 1024 megabytes
 
