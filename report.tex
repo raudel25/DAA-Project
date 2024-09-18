@@ -400,7 +400,7 @@ Cada una de las siguientes $N$ líneas contiene dos enteros $G$ $(0\leq G\leq 2\
 
 \textbf{Salida}\\
 
-Imprime una sola línea con la letra mayúscula \textbf{S} si existe una distribución justa de los planos, y la letra mayúscula \textbf{N} en caso contrario.
+Imprime una sola línea con la letra mayúscula \textbf{Y} si existe una distribución justa de los planos, y la letra mayúscula \textbf{N} en caso contrario.
 
 \subsection{Etiquetas}
 
@@ -411,5 +411,101 @@ Imprime una sola línea con la letra mayúscula \textbf{S} si existe una distrib
 \end{itemize}
 
 \subsection{Solución}
+
+Para este problema se deben particionar el conjunto de los planos de los edificios en 2 subconjuntos, para asignar a Alice y a Bbb
+respectivamente de tal manera que exista una configuración en la que la suma de los edificios construidos por cada uno sea igual.
+
+Para la solución de este problema primero se eliminará la restricción de la suma de las alturas de las plantas bajas y luego
+se resolverá el ejercicio usando esta restricción.
+
+\subsubsection{Teoría de Números}
+
+Se define los conjuntos $A$ y $B$ como el conjunto de índices de los edificios que construye Alice y Bob respectivamente. Entonces
+se cumple que $|A|=p$, $|B|=q$, $p+q=n$, $A=\{ a_1, a_2, \ldots a_p\}$, $B=\{ b_1, b_2, \ldots b_q\}$, $p>0$ y $q>0$.
+
+Luego el ejercicio se reduce a encontrar si existe una solución de a la siguiente ecuación:
+
+\begin{equation}
+    g_{a_1}+r_{a_1}x_{a_1}+g_{a_2}+r_{a_2}x_{a_2}+\ldots +g_{a_p}+r_{a_p}x_{a_p}=g_{b_1}+r_{b_1}x_{b_1}+g_{b_2}+r_{b_2}x_{b_2}+\ldots +g_{b_q}+r_{b_q}x_{b_q}
+\end{equation}
+donde  $x_i > 0$, $\forall i : 1\leq i\leq n$. Transformando la ecuación anterior:
+
+\begin{equation}
+    r_{a_1}x_{a_1}+r_{a_2}x_{a_2}+\ldots +r_{a_p}x_{a_p}-r_{b_1}x_{b_1}-r_{b_2}x_{b_2}-\ldots -r_{b_q}x_{b_q}=g_{b_1}+g_{b_2}+\ldots g_{b_q}-g_{a_1}-g_{a_2}-\ldots -g_{a_p}
+\end{equation}
+
+\begin{equation}
+    r_{a_1}x_{a_1}+r_{a_2}x_{a_2}+\ldots +r_{a_p}x_{a_p}-r_{b_1}x_{b_1}-r_{b_2}x_{b_2}-\ldots -r_{b_q}x_{b_q}=k
+\end{equation}
+entonces una condición necesaria para que la ecuación tenga solución es que:
+
+\begin{equation}
+    \text{mcd}(r_1, r_2, \ldots, r_n) \mid k
+\end{equation}
+
+Sea la ecuación de $ax+by=c$, con $a>0 \wedge b>0$ por el teorema de \textbf{Bezout} se tiene que:
+
+\begin{equation}
+    x=x_0-k{b\over d} \wedge y=y_0+k{a\over d}
+\end{equation}
+donde $x_0$ y $y_0$ son soluciones particulares de la ecuación y $d=\text{mcd}(a,b)$. Observe que siempre podemos garantizar
+que exista una solución $x=x'$ y $y=y'$, con $x'>0 \wedge y'<0$, ya que independientemente del signo de $x_0$ y $y_0$ se puede
+seleccionar un $k$ negativo con módulo lo suficientemente grande para encontrar $x'$ y $y'$
+
+Ahora volviendo al ejercicio, por la observación anterior se puede asegurar que existe una solución mayor que 0 para $x_{a_1}$ la ecuación:
+
+\begin{equation}
+    r_{a_1}x_{a_1}+w_1\text{mcd}(r_{a_2},r_{a_3},\ldots,r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q})=k
+\end{equation}
+y siguiendo misma idea se puede asegurar que existe una solución positiva para cada uno de los $x_{a_i}$ $\forall i: 2\leq i\leq p-1$  en las siguientes ecuaciones:
+
+\begin{equation}
+    r_{a_2}x_{a_2}+w_2\text{mcd}(r_{a_3},\ldots,r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q}) =w_1\text{mcd}(r_{a_2},\ldots,r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q})
+\end{equation}
+\begin{equation}
+    r_{a_3}x_{a_3}+w_3\text{mcd}(r_{a_4},\ldots,r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q}) =w_2\text{mcd}(r_{a_3},\ldots,r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q})
+\end{equation}
+
+$$\vdots $$
+
+\begin{equation}
+    r_{a_{p-1}}x_{a_{p-1}}+w_{p-1}\text{mcd}(r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q}) =w_{p-2}\text{mcd}(r_{a_{p-1}},r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q})
+\end{equation}
+Ahora se debe probar que la siguiente ecuación tiene soluciones con las restricciones anteriores:
+
+\begin{equation}
+    r_{a_p}x_{a_p}-r_{b_1}x_{b_1}-r_{b_2}x_{b_2}-\ldots -r_{b_q}x_{b_q}= w_{p-1}\text{mcd}(r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q})
+\end{equation}
+Usando el enfoque anterior se puede asegurar que existe una solución mayor que 0 para cada uno de los $x_{b_i}$ $\forall i: 2\leq i\leq q$  en las siguientes ecuaciones:
+
+\begin{equation}
+    e_{q}\text{mcd}(a_p, r_{b_1},\ldots,r_{b_q-1})-r_{b_q}x_{b_q} =w_{p-1}\text{mcd}(r_{a_p},r_{b_1},r_{b_2},\ldots,r_{b_q})
+\end{equation}
+\begin{equation}
+    e_{q-1}\text{mcd}(a_p, r_{b_1},\ldots,r_{b_q-2})-r_{b_{q-1}}x_{b_{q-1}} =e_{q}\text{mcd}(a_p, r_{b_1},\ldots,r_{b_q-1})
+\end{equation}
+
+$$\vdots $$
+
+\begin{equation}
+    e_{2}\text{mcd}(a_p, r_{b_1})-r_{b_2}x_{b_2} =e_{3}\text{mcd}(a_p, r_{b_1}, r_{b_2})
+\end{equation}
+Finalmente se puede asegurar una solución mayor que 0 para $x_n$ y $b_1$:
+
+\begin{equation}
+    r_{a_p}x_{a_p}-r_{b_1}x_{b_1} =e_{2}\text{mcd}(a_p, r_{b_1})
+\end{equation}
+Por tanto se puede asegurar (4) es una condición necesaria y suficiente para que (3) tenga solución. Además de esto la demostración
+anterior proporciona un algoritmo para encontrar dichas soluciones (las soluciones particulares de la ecuación de \textbf{Bezout} se pueden encontrar
+usando el algoritmo \textbf{Extendido de Euclides}).
+
+Entonces se ha demostrado que el ejercicio es equivalente a encontrar dos conjuntos $P$ y $Q$ tales que, $P \cup Q =\{g_1,g_2, \ldots, g_n\}$,
+$P \neq \emptyset $, $Q \neq \emptyset$, $P \cap Q=\emptyset$ y además debe cumplirse que:
+
+\begin{equation}
+    \text{mcd}(r_1,r_2,\ldots ,r_n) \mid \sum_{i=0}^{|P|} p_i - \sum_{i=0}^{|Q|} q_i
+\end{equation}
+donde los $p_i$ y $q_i$ son los elementos que de los conjuntos $P$ y $Q$ respectivamente.
+
 
 \end{document}
