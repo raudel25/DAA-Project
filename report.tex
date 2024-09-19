@@ -24,7 +24,9 @@ urlcolor=blue, }
     \vspace{1cm}
     {\scshape\Large Facultad de Matemática y Computación \par}
     \vspace{3cm}
-    {\scshape\Huge Proyecto de Diseño de Análisis y ALgoritmos\par}
+    {\scshape\Huge Proyecto de Diseño de Análisis y Algoritmos\par}
+    \vspace{1cm}
+    {\scshape\Large Análisis y resolución de ejercicios de la plataforma Codeforces\par}
     \vfill
 
     {\Large Raudel Alejandro Gómez Molina C-411 \par}
@@ -78,7 +80,7 @@ Para una consulta de tipo 1, imprime la respuesta en tres líneas de la siguient
 
 \begin{itemize}
     \item la primera línea debe contener el número de vértices que eliminas;
-    \item la segunda línea debe contener los índices de los vértices que eliminas, de la siguiente manera: si eliminas el vértice $x$ de la parte izquierda, imprime $x$; si eliminas el vértice $y$ de la parte derecha, imprime $-y$ (índice negativo);
+    \item la segunda línea debe contener los índices de los vértices que eliminas, de la siguiente manera: si eliminas el vértice $x$ de la parte izquierda, imprime $x$; si eliminas el vértice $y$ de la parte derecha imprime $-y$ (índice negativo);
     \item la tercera línea debe contener la suma de los índices de las aristas en algún emparejamiento máximo en el grafo resultante. Las aristas están numeradas del 1 al $m$.
 \end{itemize}
 
@@ -95,8 +97,8 @@ Después de imprimir la respuesta a una consulta, no olvides vaciar el búfer de
 
 \begin{itemize}
     \item Flujo
-    \item Emparejamientos
-    \item Cobertura de vértices
+    \item Emparejamiento
+    \item Cubrimiento Mínimo
 \end{itemize}
 
 \subsection{Solución}
@@ -179,7 +181,7 @@ de $O(V)$.
 
 Si se emplea el teorema de \textbf{Kőnig} demostrado anteriormente se puede pasar a analizar el problema de forma diferente,
 es decir existe una equivalencia entre $M(G)$ y $C(G)$ donde $G$ es un grafo \textbf{bipartito} ahora se puede buscar
-la menor candad de vértices tal que al eliminarlos la cardinalidad del cubrimiento mínimo disminuya exactamente en 1 y dicho conjunto cumplirá
+la menor cantidad de vértices tal que al eliminarlos la cardinalidad del cubrimiento mínimo disminuya exactamente en 1 y dicho conjunto cumplirá
 con las restricciones del problema original.
 
 Se puede realizar la siguiente observación si $V_c$ es un cubrimiento de vértices de $G = V, E$ entonces para cualquier vértice $v \in V_c$, sea $V'_c=V_c - v$
@@ -213,6 +215,10 @@ que este emparejamiento es máximo.
 Entonces para resolver el ejercicio primero es necesario encontrar un cubrimiento mínimo y el emparejamiento máximo asociado a dicho cubrimiento
 esto tiene una complejidad de $O(VE)$ empleando el algoritmo descrito anteriormente, las consultas de tipo 1 se pueden responder en una
 complejidad de $O(1)$ y las de tipo 2 en una complejidad de $O(q)$ donde $q$ es la cardinalidad del emparejamiento máximo del grafo actual.
+
+\subsection{Implementación}
+
+Puede encontrar la implementación del ejercicio en el siguiente enlace \href{https://github.com/raudel25/DAA-Project/blob/main/problems/a/a.cpp}{enlace}.
 
 \section{Número de subarreglos k-buenos}
 
@@ -290,11 +296,14 @@ números en la parte izquierda del pivote y trabajar desde 0 a $n-2^q-1$).
 
 Entonces resta resolver la parte de la conquista eficientemente, es decir buscar los arreglos $k$-buenos que tengan el extremo
 izquierdo de a la izquierda del pivote y el extremo derecho a la derecha del del pivote. Para ello se define la función $f(n,k)=(c,l,r)$,
-la función $f(n,k)$ retorna el número de subarreglos $k$-buenos de 0 a $n-1$, la longitud de del subarreglo $k$-bueno más grande
+la función $f(n,k)$ retorna el número de subarreglos $k$-buenos de 0 a $n-1$, la longitud del subarreglo $k$-bueno más grande
 que comienza en 0 y la longitud de del subarreglo $k$-bueno más grande que termina en $n-1$, respectivamente, observe que $l$ y $r$ pueden
 ser igual a 0. Ahora la cantidad de subarreglos pertenecientes a la conquista simplemente es la multiplicación del tamaño del
-subarreglo más grande que termina en $2^q$ y el tamaño del subarreglo más grande que comienza en $2^q$. El resto de la solución
-usando este método consiste en el mantenimiento de las invariantes descritas, a continuación se presenta un pseudocódigo:
+subarreglo más grande que termina en $2^q-1$ ($l1$ almacena este valor) y el tamaño del subarreglo más grande que comienza en $2^q$ ($r1$ almacena este valor), ya que
+existen todos los posibles subarreglo ($x$,$y$) $k$-buenos que pertenecen a la conquista cumplen que $2^q-l1\leq x\leq 2^q-1 \wedge 2^q\leq y\leq 2^q+r1-1$
+por que cualquier otro subarreglo que pertenezca a la conquista y comience antes de $2^q-l1$ o termine después de $2^q+r1-1$ no es $k$-bueno porque si no los valores de
+$l1$ y $r1$ no estarían correctamente calculados. El resto de la solución usando este método consiste en el mantenimiento de las
+invariantes descritas, a continuación se presenta un pseudocódigo:
 
 \begin{verbatim}
     f(n, k) {
@@ -361,6 +370,10 @@ de $O(\text{log}(n)k)$.
 
 Entonces con esta modificación el $T(n)$ recursivo quedaría de la siguiente manera: $T(n) = T(n/2) + c$,
 por lo que la complejidad del $T(n)$ es $O(\text{log}(n))$ y la complejidad final es $O(\text{log}(n)k)$.
+
+\subsection{Implementación}
+
+Puede encontrar la implementación del ejercicio en el siguiente enlace \href{https://github.com/raudel25/DAA-Project/blob/main/problems/b/b.cpp}{enlace}.
 
 \section{Distribución Justa}
 
@@ -440,7 +453,6 @@ Luego el ejercicio se reduce a encontrar si existe una solución de a la siguien
     g_{a_1}+r_{a_1}x_{a_1}+g_{a_2}+r_{a_2}x_{a_2}+\ldots +g_{a_p}+r_{a_p}x_{a_p}=g_{b_1}+r_{b_1}x_{b_1}+g_{b_2}+r_{b_2}x_{b_2}+\ldots +g_{b_q}+r_{b_q}x_{b_q}
 \end{equation}
 donde  $x_i > 0$, $\forall i : 1\leq i\leq n$. Transformando la ecuación anterior:
-
 \begin{equation}
     r_{a_1}x_{a_1}+r_{a_2}x_{a_2}+\ldots +r_{a_p}x_{a_p}-r_{b_1}x_{b_1}-r_{b_2}x_{b_2}-\ldots -r_{b_q}x_{b_q}=g_{b_1}+g_{b_2}+\ldots g_{b_q}-g_{a_1}-g_{a_2}-\ldots -g_{a_p}
 \end{equation}
@@ -695,7 +707,8 @@ Las transiciones para el algoritmo quedarían de la siguiente manera:
           si la mínima cantidad de elementos con peso $g'[i]$ para formar un conjunto de suma $w$ es menor que la cantidad
           de elementos con peso $g'[i]$ disponibles entonces la mínima la mínima cantidad elementos con peso $g'[i]$ necesarios
           es exactamente $dp[i][w - g'[i]]+1$. Observe que la primera transición se debe comprobar antes de esta para garantizar
-          mínimo.
+          mínimo y esto siempre garantiza que sea mínimo ya que se verifica si es posible garantizar un peso $w$ sin usar $g'[i]$
+          y después usando $g'[i]$, pero apoyado en el valor de la subestructura óptima de la \textbf{Dinámica}.
 \end{itemize}
 a continuación se muestra un pseudocódigo:
 
@@ -710,7 +723,7 @@ a continuación se muestra un pseudocódigo:
 
     for(i in c) { 
         for(w in sum(G)) {
-            if (i != 0 && dp[i - 1][j] >= 0)
+            if (i != 0 and dp[i - 1][j] >= 0)
             {
                 dp[i][j] = 0;
                 continue;
@@ -727,5 +740,10 @@ a continuación se muestra un pseudocódigo:
 \end{verbatim}
 La cantidad total de estados de la \textbf{Dinámica} es $\text{sum}(G)\sqrt{n}$ y resolver cada estado cuesta $O(1)$, para
 una complejidad total de $O(\text{sum}(G)\sqrt{n})$.
+
+\subsection{Implementación}
+
+Puede encontrar la implementación del ejercicio en el siguiente enlace \href{https://github.com/raudel25/DAA-Project/blob/main/problems/c/c.cpp}{enlace}.
+
 
 \end{document}
